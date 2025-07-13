@@ -1,0 +1,105 @@
+{% extends 'layout/index.html' %} {% load static %} {% block title %}
+Position_Edit {% endblock title %} {% block content %}
+<!-- Content Header (Page header) -->
+<div class="content-header offset-2">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0"></h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active ">Staff Page</li>
+        </ol>
+      </div>
+    </div>
+    <a href="{% url 'staff_show' %}" class="btn btn-success m-2 w-auto">Back</a>
+    <!-- Main content -->
+    <div class="col-md-9">
+      <div class="card card-warning">
+        <div class="card-header">
+          <h3 class="card-title">Edit Staff Form</h3>
+        </div>
+        <!-- /.card-header -->
+        <!-- form start -->
+        <form action="/staff/update/{{ staff.id }}" method="POST">
+          {% csrf_token %}
+          <div class="card-body">
+            <div class="row">
+              <div div class="form-group col-md-6">
+                <label class="{% if form.firstname.errors %} text-danger {% endif %}" for="Position">First Name</label>
+                <input
+                  type="text"
+                  name="firstname"
+                  value="{{staff.firstname}}"
+                  class="form-control {% if form.firstname.errors %} is-invalid {% endif %}"
+                  placeholder="First Name"
+                />
+              </div>
+              <div class="form-group col-md-6">
+                <label class="{% if form.lastname.errors %} text-danger {% endif %}" for="Position">Last Name</label>
+                <input
+                  type="text"
+                  name="lastname"
+                  value="{{staff.lastname}}"
+                  class="form-control {% if form.lastname.errors %} is-invalid {% endif %}"
+                  placeholder="Last Name"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-4">
+                <label class="{% if form.gender.errors %} text-danger {% endif %}" for="staff_gender">Gender</label>
+                <select class="form-control {% if form.gender.errors %} is-invalid {% endif %}" name="gender" id="">
+                  <option value="">Choose gender...</option>
+                  <option value="M" {%if staff.gender == 'M' %} selected {% endif %}>Male</option>
+                  <option value="F" {%if staff.gender == 'F' %} selected {% endif %}>Female</option>
+                </select>
+              </div>
+              <div class="form-group col-md-4">
+                <label class="{% if form.dateofbirth.errors %} text-danger {% endif %}" for="Position">Date of Birth</label>
+                <input
+                  type="date"
+                  name="dateofbirth"
+                  value="{{ staff.dateofbirth|date:'Y-m-d' }}"
+                  class="form-control {% if form.dateofbirth.errors %} is-invalid {% endif %}"
+                  placeholder="Position Name"
+                />
+              </div>
+              <div class="form-group col-md-4">
+                <label class="{% if form.position.errors %} text-danger {% endif %} "for="Position">Position</label>
+                <select class="form-control {% if form.position.errors %} is-invalid {% endif %}" name="position" id="">
+                  <option value="">Choose Position...</option>
+                  {% for position in positions %}
+                  <option value="{{ position.id }} "{% if staff.position.id == position.id %} selected {% endif %}>{{ position.name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+            {% if form.errors %}
+            <div class="alert alert-danger alert-dismissible">
+              <button
+                type="button"
+                class="close"
+                data-dismiss="alert"
+                aria-hidden="true"
+              >
+                ×
+              </button>
+              <h5><i class="icon fas fa-ban"></i> Alert!</h5>
+              {{ form.errors }}
+            </div>
+            {% endif %}
+          </div>
+
+          <div class="card-footer">
+            <button type="submit" class="btn btn-warning">Update</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

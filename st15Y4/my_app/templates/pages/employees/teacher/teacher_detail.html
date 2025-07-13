@@ -1,0 +1,147 @@
+{% extends 'layout/index.html' %} {% load static %} {% block emp_open_menu %}
+menu-open {% endblock emp_open_menu %} {% block title %} Teacher {% endblock title%} {% block content %}
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0"></h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active">Taecher Page</li>
+        </ol>
+      </div>
+    </div>
+    <a href="{% url 'teacher_show' %}" class="btn btn-success m-2 w-auto shadow-lg rounded"
+      >Back</a
+    >
+    <!-- Main content -->
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Teacher Profile</h3>
+        <div class="card-tools">
+          <button
+            type="button"
+            class="btn btn-tool"
+            data-card-widget="collapse"
+            title="Collapse"
+          >
+            <i class="fas fa-minus"></i>
+          </button>
+          <button
+            type="button"
+            class="btn btn-tool"
+            data-card-widget="remove"
+            title="Remove"
+          >
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-4 ">
+            <div style="display: flex; justify-content: center; margin-top: 5px; ">
+              <img src="{% if teachers.photo %}/media/{{ teachers.photo }}{% else %}{% static 'dist/img/no-img.jpeg' %}{% endif %}" style="width: 250px; height: 250px;" class=" shadow-lg rounded mx-auto d-block " alt="no image">
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="row">
+              <div class="col-md-4">
+                <h5>Teacher Name:</h5>
+              </div>
+              <div class="col-md-8">
+                <h5>{{ teachers.firstname }} {{ teachers.lastname }}</h5>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <h5>Gender:</h5>
+              </div>
+              <div class="col-md-8">
+                <h5>{{ teachers.gender }}</h5>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <h5>Date of Birth:</h5>
+              </div>
+              <div class="col-md-8">
+                <h5>{{ teachers.dateofbirth|date:'d-M-Y' }}</h5>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <h5>Salary:</h5>
+              </div>
+              <div class="col-md-8">
+                <h5>${{ teachers.salary }}</h5>
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="col-md-4">
+                <h5>Subject:</h5>
+              </div>
+              <div class="col-md-8">
+                <h5>{{ teachers.subject.subject_name }}</h5>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <h5>Create by:</h5>
+              </div>
+              <div class="col-md-8">
+                <h5>{{ teachers.create_by.firstname }}</h5>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <h5>Create at:</h5>
+              </div>
+              <div class="col-md-8">
+                <h5>{{ teachers.create_at|date:'d-M-Y' }}</h5>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <h5>Update by:</h5>
+              </div>
+              <div class="col-md-8">
+                <h5>{{ teachers.update_by }}</h5>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <h5>Update at:</h5>
+              </div>
+              <div class="col-md-8">
+                <h5>{{ teachers.update_at|date:'d-M-Y' }}</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <script>
+    function delete_staff(id) {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = "delete_teacher/" + id;
+        }
+      });
+    }
+  </script>
+  {% endblock %}
+</div>

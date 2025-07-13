@@ -1,0 +1,186 @@
+{% extends 'layout/index.html' %} {% load static %} {% block title %}
+Position_create {% endblock title %} {% block content %}
+<!-- Content Header (Page header) -->
+<div class="content-header offset-2">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0"></h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active">Teacher Page</li>
+        </ol>
+      </div>
+    </div>
+    <a href="{% url 'teacher_show' %}" class="btn btn-success m-2 w-auto"
+      >Back</a
+    >
+    <!-- Main content -->
+    <div class="col-md-9">
+      <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title">Create Teacher Form</h3>
+        </div>
+        <!-- /.card-header -->
+        <!-- form start -->
+        <form
+          action="{% url 'teacher_create' %}"
+          method="POST"
+          enctype="multipart/form-data"
+        >
+          {% csrf_token %}
+          <div class="card-body">
+            <div class="row">
+              <div div class="form-group col-md-6">
+                <label
+                  class="{% if form.firstname.errors %} text-danger {% endif %}"
+                  for="Position"
+                  >First Name</label
+                >
+                <input
+                  type="text"
+                  name="firstname"
+                  value="{{ form.firstname.value | default_if_none:'' }}"
+                  class="form-control {% if form.firstname.errors %} is-invalid {% endif %}"
+                  id="position"
+                  placeholder="First Name"
+                />
+              </div>
+              <div class="form-group col-md-6">
+                <label
+                  class="{% if form.lastname.errors %} text-danger {% endif %}"
+                  for="Position"
+                  >Last Name</label
+                >
+                <input
+                  type="text"
+                  name="lastname"
+                  value="{{ form.lastname.value | default_if_none:'' }}"
+                  class="form-control {% if form.lastname.errors %} is-invalid {% endif %}"
+                  id="position"
+                  placeholder="Last Name"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-4">
+                <label
+                  class="{% if form.gender.errors %} text-danger {% endif %}"
+                  for="staff_gender"
+                  >Gender</label
+                >
+                <select
+                  class="form-control {% if form.gender.errors %} is-invalid {% endif %}"
+                  name="gender"
+                  id=""
+                >
+                  <option value="">Choose gender...</option>
+                  <option value="M">Male</option>
+                  <option value="F">Female</option>
+                </select>
+              </div>
+              <div class="form-group col-md-4">
+                <label
+                  class="{% if form.dateofbirth.errors %} text-danger {% endif %}"
+                  for="dateofbirth"
+                  >Date of Birth</label
+                >
+                <input
+                  type="date"
+                  name="dateofbirth"
+                  value="{{ form.dateofbirth.value | default_if_none:'' }}"
+                  class="form-control {% if form.dateofbirth.errors %} is-invalid {% endif %}"
+                  id="position"
+                  placeholder="Position Name"
+                />
+              </div>
+              <div class="form-group col-md-4">
+                <label
+                  class="{% if form.subject.errors %} text-danger {% endif %}"
+                  for="Subject"
+                  >Subject</label
+                >
+                <select
+                  class="form-control {% if form.subject.errors %} is-invalid {% endif %}"
+                  name="subject"
+                  id=""
+                >
+                  <option value="">Choose Subjects...</option>
+                  {% for subject in subjects %}
+                  <option value="{{ subject.id }}">
+                    {{ subject.subject_name }}
+                  </option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-4">
+                <label
+                  class="{% if form.salary.errors %} text-danger {% endif %}"
+                  for="staff_gender"
+                  >Salary</label
+                >
+                <input
+                  type="number"
+                  name="salary"
+                  value="{{ form.salary.value | default_if_none:'' }}"
+                  class="form-control {% if form.salary.errors %} is-invalid {% endif %}"
+                  id="position"
+                  placeholder="Salary"
+                />
+              </div>
+              <div class="form-group col-md-4">
+                <label for="create_by">Create By</label>
+                <select class="form-control" name="create_by" id="">
+                  <option value="">Choose Staff...</option>
+                  {% for staff in staffs %}
+                  <option value="{{ staff.id }}">{{ staff.firstname }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="form-group col-md-4">
+                <label for="photo">Photo</label>
+                <div class="input-group">
+                  <div class="custom-file">
+                    <input
+                      type="file"
+                      class="custom-file-input"
+                      name="photo"
+                      id="photo"
+                    />
+                    <label class="custom-file-label" for="photo"
+                      >Choose file</label
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% if form.errors %}
+            <div class="alert alert-danger alert-dismissible">
+              <button
+                type="button"
+                class="close"
+                data-dismiss="alert"
+                aria-hidden="true"
+              >
+                ×
+              </button>
+              <h5><i class="icon fas fa-ban"></i> Alert!</h5>
+              {{ form.errors }}
+            </div>
+            {% endif %}
+          </div>
+
+          <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

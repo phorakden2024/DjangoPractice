@@ -1,0 +1,80 @@
+{% extends 'layout/index.html' %} {% load static %} {% block title %}
+Position_create {% endblock title %} {% block content %}
+<!-- Content Header (Page header) -->
+<div class="content-header offset-4">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0"></h1>
+        <a href="{% url 'position_show' %}" class="btn btn-success float-right"
+          >Back</a
+        >
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active">Position Page</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- Main content -->
+    <div class="col-md-6">
+      <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title">Create Position Form</h3>
+        </div>
+        <!-- /.card-header -->
+        <!-- form start -->
+        <form action="{% url 'position_create' %}" method="POST">
+          {% csrf_token %}
+          <div class="card-body">
+            <div class="form-group">
+              <label for="Position">Position Name</label>
+              <input
+                type="text"
+                name="name"
+                value="{{ form.name.value|default_if_none:'' }}"
+                class="form-control"
+                id="position"
+                placeholder="Position Name"
+              />
+            </div>
+            <!-- <div class="form-check">
+            <input
+                type="checkbox"
+                class="form-check-input"
+                id="exampleCheck1"
+            />
+            <label class="form-check-label" for="exampleCheck1"
+                >Check me out</label
+            >
+            </div> -->
+            {% if form.name.errors %}
+            <div class="alert alert-danger alert-dismissible">
+              <button
+                type="button"
+                class="close"
+                data-dismiss="alert"
+                aria-hidden="true"
+              >
+                ×
+              </button>
+              <h5><i class="icon fas fa-ban"></i> Alert!</h5>
+              {{ form.name.errors }}
+            </div>
+            {% endif %}
+          </div>
+
+          <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- /.content -->
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,192 @@
+{% extends 'layout/index.html' %} {% load static %} {% block title %}
+Position_create {% endblock title %} {% block content %}
+<!-- Content Header (Page header) -->
+<div class="content-header offset-2">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0"></h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active">Teacher Page</li>
+        </ol>
+      </div>
+    </div>
+    <a href="{% url 'teacher_show' %}" class="btn btn-success m-2 w-auto"
+      >Back</a
+    >
+    <!-- Main content -->
+    <div class="col-md-9">
+      <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title">Create Teacher Form</h3>
+        </div>
+        <!-- /.card-header -->
+        <!-- form start -->
+        <form
+          action="/teacher/teacher_update/{{ teachers.id }}/"
+          method="POST"
+          enctype="multipart/form-data"
+        >
+          {% csrf_token %}
+          <div class="card-body">
+            <div class="row">
+              <div div class="form-group col-md-6">
+                <label
+                  class="{% if form.firstname.errors %} text-danger {% endif %}"
+                  for="Position"
+                  >First Name</label
+                >
+                <input
+                  type="text"
+                  name="firstname"
+                  value="{{ teachers.firstname }}"
+                  class="form-control {% if form.firstname.errors %} is-invalid {% endif %}"
+                  id="position"
+                  placeholder="First Name"
+                />
+              </div>
+              <div class="form-group col-md-6">
+                <label
+                  class="{% if form.lastname.errors %} text-danger {% endif %}"
+                  for="Position"
+                  >Last Name</label
+                >
+                <input
+                  type="text"
+                  name="lastname"
+                  value="{{ teachers.lastname }}"
+                  class="form-control {% if form.lastname.errors %} is-invalid {% endif %}"
+                  id="position"
+                  placeholder="Last Name"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-4">
+                <label
+                  class="{% if form.gender.errors %} text-danger {% endif %}"
+                  for="gender"
+                  >Gender</label
+                >
+                <select
+                  class="form-control {% if form.gender.errors %} is-invalid {% endif %}"
+                  name="gender"
+                >
+                  <option value="">Choose gender...</option>
+                  <option value="M" {%if teachers.gender == 'M' %} selected {% endif %}>Male</option>
+                  <option value="F"{%if teachers.gender == 'F' %} selected {% endif %}>Female</option>
+                </select>
+              </div>
+              <div class="form-group col-md-4">
+                <label
+                  class="{% if form.dateofbirth.errors %} text-danger {% endif %}"
+                  for="dateofbirth"
+                  >Date of Birth</label
+                >
+                <input
+                  type="date"
+                  name="dateofbirth"
+                  value="{{ teachers.dateofbirth|date:'Y-m-d' }}"
+                  class="form-control {% if form.dateofbirth.errors %} is-invalid {% endif %}"
+                  id="position"
+                  placeholder="Position Name"
+                />
+              </div>
+              <div class="form-group col-md-4">
+                <label
+                  class="{% if form.subject.errors %} text-danger {% endif %}"
+                  for="Subject"
+                  >Subject</label
+                >
+                <select
+                  class="form-control {% if form.subject.errors %} is-invalid {% endif %}"
+                  name="subject"
+                  id=""
+                >
+                  <option value="">Choose Subjects...</option>
+                  {% for subject in subjects %}
+                    <option value="{{ subject.id }}" {%if teachers.subject.id == subject.id %} selected {% endif %}>
+                      {{ subject.subject_name }} 
+                    </option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-4">
+                <label
+                  class="{% if form.salary.errors %} text-danger {% endif %}"
+                  for="staff_gender"
+                  >Salary</label
+                >
+                <input
+                  type="number"
+                  name="salary"
+                  value="{{ teachers.salary }}"
+                  class="form-control {% if form.salary.errors %} is-invalid {% endif %}"
+                  id="position"
+                  placeholder="Salary"
+                />
+              </div>
+              <div class="form-group col-md-4">
+                <label for="Create By">Create By</label>
+                <select class="form-control" name="create_by" id="">
+                  <option value="">Choose Staff...</option>
+                  {% for staff in staffs %}
+                  <option value="{{ staff.id }}" {%if teachers.create_by.id == staff.id %} selected {% endif %}>{{ staff.firstname }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="form-group col-md-4">
+                <label for="photo">Photo</label>
+                <div class="input-group">
+                  <div class="custom-file">
+                    <input
+                      type="file"
+                      class="custom-file-input"
+                      name="photo"
+                      id="photo"
+                      accept="image/*"
+                      value="{{ teachers.photo }}"
+                    />
+                    <label class="custom-file-label" for="photo"
+                      >Choose file</label
+                    >
+                  </div>
+                </div> 
+              </div>
+            </div>
+              <div class="form-group col-md-4 offset-8 "> 
+              <div style="display: flex; justify-content: center; margin-top: 20px;">
+                 <img class="profile-user-img img-fluid img-circle shadow-lg rounded " src="{% if teachers.photo %}/media/{{ teachers.photo }}{% else %}{% static 'dist/img/no-img.jpeg' %}{% endif %}" style="width: 150px; height: 150px;" alt="">
+              </div>
+              </div>
+            {% if form.errors %}
+            <div class="alert alert-danger alert-dismissible">
+              <button
+                type="button"
+                class="close"
+                data-dismiss="alert"
+                aria-hidden="true"
+              >
+                ×
+              </button>
+              <h5><i class="icon fas fa-ban"></i> Alert!</h5>
+              {{ form.errors }}
+            </div>
+            {% endif %}
+          </div>
+
+          <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

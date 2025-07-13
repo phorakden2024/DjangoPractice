@@ -1,0 +1,124 @@
+{% extends 'layout/index.html' %} {% load static %} {% block emp_open_menu %}
+menu-open {% endblock emp_open_menu %} {% block title %} Teacher {% endblock title%} {% block content %}
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0"></h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active">Teacher Page</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- Main content -->
+    <div class="col-md-12 ">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title mt-2">Teacher Table</h3>
+          <a
+            href="{% url 'teacher_createForm' %}"
+            class="btn btn-primary float-right shadow-lg rounded"
+            >Create</a
+          >
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width: 10px">ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Gender</th>
+                <th>DOB</th>
+              
+                <th>Photo</th>
+                <!-- <th>Salary</th>
+                <th>Create At</th>
+                <th>Create BY</th>
+                <th>Update At</th>
+                <th>Update By</th> -->
+                <th>Subject</th>
+                <th class=" text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for teacher in teachers %}
+                <tr>
+                  <td>{{ teacher.id }}</td>
+                  <td>{{ teacher.firstname }}</td>
+                  <td>{{ teacher.lastname }}</td>
+                  {% if teacher.gender == 'M' %}
+                    <td>Male</td>
+                  {% elif teacher.gender == 'F' %}
+                    <td>Female</td>
+                  {% endif %}
+                    </td>
+                  <td>{{ teacher.dateofbirth|date:'d-M-Y' }}</td>
+                  <td>
+                    {% if teacher.photo %}
+                      <img src="/media/{{ teacher.photo }}" style="width: 50px; height: 50px;" alt="">
+                    {% else %}
+                      <img src="{% static 'dist/img/no-img.jpeg' %}" style="width: 50px; height: 50px;" alt="">
+                    {% endif %}
+                  </td>
+                  <!-- <td>{{ teacher.salary }}</td>
+                  <td>{{ teacher.create_at }}</td>
+                  <td>{{ teacher.create_by_id }}</td>
+                  <td>{{ teacher.update_at }}</td>
+                  <td>{{ teacher.update_by }}</td> -->
+                  <td>{{ teacher.subject.subject_name }}</td>
+                  <td class="text-center ">
+                      <a
+                      href="{% url 'teacher_detail' teacher.id %}"
+                      class="btn btn-primary "
+                      >View</a
+                    >
+                    <a
+                      href="edit_teacher/{{ teacher.id }}"
+                      class="btn btn-warning "
+                      >Edit</a
+                    >
+                    <a onclick="delete_staff('{{ teacher.id }}')" class="btn btn-danger"> Delete </a>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <!-- /.card-body -->
+        <!-- <div class="card-footer clearfix">
+          <ul class="pagination pagination-sm m-0 float-right">
+            <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+          </ul>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  function delete_staff(id) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.href = "delete_teacher/" + id;
+      }
+    })
+  }
+</script>
+{% endblock %}
